@@ -5,8 +5,17 @@
 		"factoryName": {
 			"value": "df-musaveer"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_output_accountKey": {
+			"value": ""
+		},
 		"ls_storage_account_gen2_accountKey": {
 			"value": ""
+		},
+		"AzureDataLakeStorage_output_properties_typeProperties_url": {
+			"value": "https://samusaveeroutput.dfs.core.windows.net/"
 		},
 		"ls_storage_account_gen2_properties_typeProperties_url": {
 			"value": "https://samusaveer.dfs.core.windows.net/"

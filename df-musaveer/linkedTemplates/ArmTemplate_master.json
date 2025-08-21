@@ -7,9 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "df-musaveer"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataLakeStorage_output_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_output'"
+		},
 		"ls_storage_account_gen2_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_storage_account_gen2'"
+		},
+		"AzureDataLakeStorage_output_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://samusaveeroutput.dfs.core.windows.net/"
 		},
 		"ls_storage_account_gen2_properties_typeProperties_url": {
 			"type": "string",
@@ -42,8 +54,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureDataLakeStorage_output_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage_output_accountKey')]"
+					},
 					"ls_storage_account_gen2_accountKey": {
 						"value": "[parameters('ls_storage_account_gen2_accountKey')]"
+					},
+					"AzureDataLakeStorage_output_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage_output_properties_typeProperties_url')]"
 					},
 					"ls_storage_account_gen2_properties_typeProperties_url": {
 						"value": "[parameters('ls_storage_account_gen2_properties_typeProperties_url')]"
