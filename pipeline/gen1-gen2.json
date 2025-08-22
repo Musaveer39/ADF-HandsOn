@@ -49,7 +49,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "ds_input_gen1",
 						"type": "DatasetReference"
 					}
 				],

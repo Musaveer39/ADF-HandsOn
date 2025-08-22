@@ -5,6 +5,9 @@
 			"referenceName": "AzureDataLakeStorage_output",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "SA-S3"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

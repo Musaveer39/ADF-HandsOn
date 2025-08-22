@@ -1,9 +1,12 @@
 {
-	"name": "DelimitedText1",
+	"name": "ds_input_gen1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SA-S3"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
