@@ -13,7 +13,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "GoogleCloudStorageLocation",
-				"bucketName": "musaveer-adf-bucket"
+				"bucketName": "musaveer-adf-bucket",
+				"folderPath": "output"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
