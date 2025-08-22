@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_output'"
 		},
+		"GoogleCloudStorage_secretAccessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'secretAccessKey' of 'GoogleCloudStorage'"
+		},
 		"ls_aws_s3_secretAccessKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'secretAccessKey' of 'ls_aws_s3'"
@@ -26,6 +30,10 @@
 		"AzureDataLakeStorage_output_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://samusaveeroutput.dfs.core.windows.net/"
+		},
+		"GoogleCloudStorage_properties_typeProperties_accessKeyId": {
+			"type": "string",
+			"defaultValue": "GOOG1EQQO53SHVSBN6M22ZMOTCW3CMBGZ3JYNNFCVNG2WXLNSJZFFZVLVFWA3"
 		},
 		"ls_aws_s3_properties_typeProperties_accessKeyId": {
 			"type": "string",
@@ -68,6 +76,9 @@
 					"AzureDataLakeStorage_output_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage_output_accountKey')]"
 					},
+					"GoogleCloudStorage_secretAccessKey": {
+						"value": "[parameters('GoogleCloudStorage_secretAccessKey')]"
+					},
 					"ls_aws_s3_secretAccessKey": {
 						"value": "[parameters('ls_aws_s3_secretAccessKey')]"
 					},
@@ -76,6 +87,9 @@
 					},
 					"AzureDataLakeStorage_output_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage_output_properties_typeProperties_url')]"
+					},
+					"GoogleCloudStorage_properties_typeProperties_accessKeyId": {
+						"value": "[parameters('GoogleCloudStorage_properties_typeProperties_accessKeyId')]"
 					},
 					"ls_aws_s3_properties_typeProperties_accessKeyId": {
 						"value": "[parameters('ls_aws_s3_properties_typeProperties_accessKeyId')]"

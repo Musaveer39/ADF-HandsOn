@@ -11,6 +11,9 @@
 		"AzureDataLakeStorage_output_accountKey": {
 			"value": ""
 		},
+		"GoogleCloudStorage_secretAccessKey": {
+			"value": ""
+		},
 		"ls_aws_s3_secretAccessKey": {
 			"value": ""
 		},
@@ -19,6 +22,9 @@
 		},
 		"AzureDataLakeStorage_output_properties_typeProperties_url": {
 			"value": "https://samusaveeroutput.dfs.core.windows.net/"
+		},
+		"GoogleCloudStorage_properties_typeProperties_accessKeyId": {
+			"value": "GOOG1EQQO53SHVSBN6M22ZMOTCW3CMBGZ3JYNNFCVNG2WXLNSJZFFZVLVFWA3"
 		},
 		"ls_aws_s3_properties_typeProperties_accessKeyId": {
 			"value": "AKIATHJS2RKPDTX4CVH3"

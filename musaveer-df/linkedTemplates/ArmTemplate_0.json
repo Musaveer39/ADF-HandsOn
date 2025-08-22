@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_output'"
 		},
+		"GoogleCloudStorage_secretAccessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'secretAccessKey' of 'GoogleCloudStorage'"
+		},
 		"ls_aws_s3_secretAccessKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'secretAccessKey' of 'ls_aws_s3'"
@@ -26,6 +30,10 @@
 		"AzureDataLakeStorage_output_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://samusaveeroutput.dfs.core.windows.net/"
+		},
+		"GoogleCloudStorage_properties_typeProperties_accessKeyId": {
+			"type": "string",
+			"defaultValue": "GOOG1EQQO53SHVSBN6M22ZMOTCW3CMBGZ3JYNNFCVNG2WXLNSJZFFZVLVFWA3"
 		},
 		"ls_aws_s3_properties_typeProperties_accessKeyId": {
 			"type": "string",
@@ -71,6 +79,24 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/GoogleCloudStorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "GoogleCloudStorage",
+				"typeProperties": {
+					"serviceUrl": "https://storage.googleapis.com",
+					"accessKeyId": "[parameters('GoogleCloudStorage_properties_typeProperties_accessKeyId')]",
+					"secretAccessKey": {
+						"type": "SecureString",
+						"value": "[parameters('GoogleCloudStorage_secretAccessKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_aws_s3')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -105,6 +131,120 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GCP_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "GoogleCloudStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SA-S3"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "GoogleCloudStorageLocation",
+						"bucketName": "musaveer-adf-bucket",
+						"folderPath": "output",
+						"fileName": "Index.xlsx"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/GoogleCloudStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_S3_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_aws_s3",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SA-S3"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AmazonS3Location",
+						"bucketName": "bkt-musaveer-0312-12aug",
+						"fileName": "data.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Day",
+						"type": "String"
+					},
+					{
+						"name": "Weather",
+						"type": "String"
+					},
+					{
+						"name": "Temperature",
+						"type": "String"
+					},
+					{
+						"name": "Wind",
+						"type": "String"
+					},
+					{
+						"name": "Humidity",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_aws_s3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SA_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_storage_account_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SA-S3"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "output"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_storage_account_gen2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_input')]",
@@ -265,85 +405,157 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_S3_input')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/PL_GCP_SA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_aws_s3",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "SA-S3"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AmazonS3Location",
-						"bucketName": "bkt-musaveer-0312-12aug",
-						"fileName": "data.csv"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
+				"activities": [
 					{
-						"name": "Day",
-						"type": "String"
-					},
-					{
-						"name": "Weather",
-						"type": "String"
-					},
-					{
-						"name": "Temperature",
-						"type": "String"
-					},
-					{
-						"name": "Wind",
-						"type": "String"
-					},
-					{
-						"name": "Humidity",
-						"type": "String"
+						"name": "S3_GCP",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "GoogleCloudStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GCP_output",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SA_output",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
-				]
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_aws_s3')]"
+				"[concat(variables('factoryId'), '/datasets/DS_GCP_output')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SA_output')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_SA_output')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/PL_S3-SA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_storage_account_gen2",
-					"type": "LinkedServiceReference"
+				"activities": [
+					{
+						"name": "AclCopy_S3_SA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AmazonS3ReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_S3_input",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SA_output",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
 				},
-				"folder": {
-					"name": "SA-S3"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "output"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
+				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_storage_account_gen2')]"
+				"[concat(variables('factoryId'), '/datasets/DS_S3_input')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SA_output')]"
 			]
 		},
 		{
@@ -445,7 +657,7 @@
 							"source": {
 								"type": "DelimitedTextSource",
 								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
+									"type": "AmazonS3ReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
@@ -476,7 +688,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ds_input",
+								"referenceName": "DS_S3_input",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -496,7 +708,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_input')]",
+				"[concat(variables('factoryId'), '/datasets/DS_S3_input')]",
 				"[concat(variables('factoryId'), '/datasets/ds_output')]"
 			]
 		}
