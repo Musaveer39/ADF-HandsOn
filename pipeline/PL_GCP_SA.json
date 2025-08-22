@@ -18,7 +18,7 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AmazonS3ReadSettings",
+							"type": "GoogleCloudStorageReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "GoogleCloudStorageWriteSettings"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -49,13 +49,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_S3_input",
+						"referenceName": "DS_GCP_output",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_GCP_output",
+						"referenceName": "DS_SA_output",
 						"type": "DatasetReference"
 					}
 				]
