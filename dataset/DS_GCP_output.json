@@ -1,0 +1,25 @@
+{
+	"name": "DS_GCP_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GoogleCloudStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SA-S3"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "GoogleCloudStorageLocation",
+				"bucketName": "musaveer-adf-bucket"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
