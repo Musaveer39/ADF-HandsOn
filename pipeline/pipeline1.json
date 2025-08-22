@@ -18,7 +18,7 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
+							"type": "AmazonS3ReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
@@ -49,7 +49,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_input",
+						"referenceName": "DS_S3_input",
 						"type": "DatasetReference"
 					}
 				],

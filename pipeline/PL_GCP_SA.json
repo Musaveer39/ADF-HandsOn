@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "SA_GCP",
+				"name": "S3_GCP",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

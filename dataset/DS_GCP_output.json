@@ -14,7 +14,8 @@
 			"location": {
 				"type": "GoogleCloudStorageLocation",
 				"bucketName": "musaveer-adf-bucket",
-				"folderPath": "output"
+				"folderPath": "output",
+				"fileName": "Index.xlsx"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
